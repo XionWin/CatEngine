@@ -1,7 +1,5 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
+extern crate sdl2;
+
+mod sdl_window_creator;
+
+pub use sdl_window_creator::*;

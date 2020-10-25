@@ -4,5 +4,5 @@ pub use common::*;
 mod window;
 pub use window::*;
 
-mod contract;
-pub use contract::*;
+mod window_creator;
+pub use window_creator::*;
