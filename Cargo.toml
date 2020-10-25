@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    # App
+    "cat",
+
+    # Graphic
+    "cat-vg",
+    "gl-graphic",
+    "graphic-core",
+]
