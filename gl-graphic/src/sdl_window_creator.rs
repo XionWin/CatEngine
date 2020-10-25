@@ -2,7 +2,6 @@ use graphic_core::WindowCreator;
 use sdl2::pixels::Color;
 pub struct SDLWindowCreator {
     sdl: sdl2::Sdl,
-    video_subsystem: sdl2::VideoSubsystem,
     canvas: sdl2::render::Canvas<sdl2::video::Window>,
 }
 
@@ -26,7 +25,7 @@ impl WindowCreator for SDLWindowCreator {
             .map_err(|e| e.to_string())
             .unwrap();
 
-        SDLWindowCreator { sdl, video_subsystem, canvas }
+        SDLWindowCreator { sdl, canvas }
     }
     fn show(&mut self) {
         let mut event_pump = self.sdl.event_pump().unwrap();
@@ -46,27 +45,23 @@ impl WindowCreator for SDLWindowCreator {
                 }
             }
 
-            
             self.canvas.set_draw_color(Color::RGB(255, 0, 0));
             self.canvas.clear();
             self.canvas.present();
         }
     }
 
-    fn set_size(&mut self, w: u32, h: u32) {
-        let window = self.video_subsystem
-            .window("Game", w, h)
-            .opengl()
-            .resizable()
-            .build()
-            .unwrap();
-
-        let canvas = window
+    fn set_size(mut self, w: u32, h: u32) -> Self {
+        let mut window = self.canvas.into_window();
+        window.set_size(w, h).unwrap();
+        window.set_position(sdl2::video::WindowPos::Centered, sdl2::video::WindowPos::Centered);
+        
+        self.canvas = window
             .into_canvas()
             .present_vsync()
             .build()
             .map_err(|e| e.to_string())
             .unwrap();
-        self.canvas = canvas;
+        self
     }
 }
