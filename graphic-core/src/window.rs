@@ -10,8 +10,8 @@ impl<T> Window<T>
 where
     T: WindowCreator,
 {
-    pub fn new(x: i32, y: i32, w: u32, h: u32, title: &str, creator: T) -> Self {
-        let creator = creator.set_size(w, h);
+    pub fn new(x: i32, y: i32, w: u32, h: u32, title: &str) -> Self {
+        let creator = T::new(w, h);
         Window {
             creator,
             bound: Rect::new(x, y, w as i32, h as i32),

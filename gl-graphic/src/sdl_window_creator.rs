@@ -1,18 +1,19 @@
-use graphic_core::WindowCreator;
+use graphic_core::{WindowCreator, Window};
 use sdl2::pixels::Color;
+
+pub type SDLWindow = Window<SDLWindowCreator>;
 pub struct SDLWindowCreator {
     sdl: sdl2::Sdl,
     canvas: sdl2::render::Canvas<sdl2::video::Window>,
 }
 
 impl WindowCreator for SDLWindowCreator {
-    fn new() -> Self {
+    fn new(w: u32, h: u32) -> Self {
         let sdl = sdl2::init().unwrap();
         let video_subsystem = sdl.video().unwrap();
 
-        let (wnd_width, wnd_height) = (640, 480);
         let window = video_subsystem
-            .window("Game", wnd_width, wnd_height)
+            .window("Game", w, h)
             .opengl()
             .resizable()
             .build()

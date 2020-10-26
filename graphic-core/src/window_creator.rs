@@ -1,5 +1,5 @@
 pub trait WindowCreator {
-    fn new() -> Self;
+    fn new(w: u32, h: u32) -> Self;
     fn show(&mut self);
 
     fn set_size(self, w: u32, h: u32) -> Self;
