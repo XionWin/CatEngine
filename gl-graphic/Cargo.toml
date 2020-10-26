@@ -11,4 +11,6 @@ graphic-core = {path="../graphic-core"}
 
 [dependencies.sdl2]
 version = "*"
-features = ["bundled", "static-link"]
+default-features = false
+#features = ["bundled", "static-link"]
+

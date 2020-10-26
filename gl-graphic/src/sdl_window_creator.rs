@@ -28,6 +28,7 @@ impl WindowCreator for SDLWindowCreator {
 
         SDLWindowCreator { sdl, canvas }
     }
+    
     fn show(&mut self) {
         let mut event_pump = self.sdl.event_pump().unwrap();
         'main: loop {
@@ -56,6 +57,31 @@ impl WindowCreator for SDLWindowCreator {
         let mut window = self.canvas.into_window();
         window.set_size(w, h).unwrap();
         window.set_position(sdl2::video::WindowPos::Centered, sdl2::video::WindowPos::Centered);
+        
+        self.canvas = window
+            .into_canvas()
+            .present_vsync()
+            .build()
+            .map_err(|e| e.to_string())
+            .unwrap();
+        self
+    }
+
+    fn set_position(mut self, x: graphic_core::WindowPos, y: graphic_core::WindowPos) -> Self {
+        let mut window = self.canvas.into_window();
+
+        let pos_x = match x {
+            graphic_core::WindowPos::Undefined => sdl2::video::WindowPos::Undefined,
+            graphic_core::WindowPos::Centered => sdl2::video::WindowPos::Centered,
+            graphic_core::WindowPos::Positioned(v) => sdl2::video::WindowPos::Positioned(v),
+        };
+        let pos_y = match y {
+            graphic_core::WindowPos::Undefined => sdl2::video::WindowPos::Undefined,
+            graphic_core::WindowPos::Centered => sdl2::video::WindowPos::Centered,
+            graphic_core::WindowPos::Positioned(v) => sdl2::video::WindowPos::Positioned(v),
+        };
+
+        window.set_position(pos_x, pos_y);
         
         self.canvas = window
             .into_canvas()
