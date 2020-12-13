@@ -14,5 +14,7 @@ pub trait WindowCreator<R: Renderer> {
     fn set_size(self, w: u32, h: u32) -> Self;
     fn set_position(self, x: WindowPos, y: WindowPos) -> Self;
 
-    fn renderer(&mut self) -> &mut R;
+    fn get_renderer(&mut self) -> &mut R;
+
+    fn set_update_handler(&mut self, f: &dyn Fn(&mut R));
 }

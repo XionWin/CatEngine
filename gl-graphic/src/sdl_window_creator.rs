@@ -25,7 +25,10 @@ impl WindowCreator<SDLRenderer> for SDLWindowCreator {
             .map_err(|e| e.to_string())
             .unwrap();
 
-        SDLWindowCreator { sdl, renderer: SDLRenderer{canvas} }
+        SDLWindowCreator {
+            sdl,
+             renderer: SDLRenderer{canvas},
+        }
     }
 
     fn show(&mut self, f: &dyn Fn(&mut SDLRenderer)) {
@@ -92,7 +95,12 @@ impl WindowCreator<SDLRenderer> for SDLWindowCreator {
         self
     }
 
-    fn renderer(&mut self) -> &mut SDLRenderer { 
+    fn get_renderer(&mut self) -> &mut SDLRenderer { 
         &mut self.renderer
      }
+
+
+    fn set_update_handler(&mut self, f: &dyn Fn(&mut SDLRenderer)) {
+
+    }
 }

@@ -38,8 +38,9 @@ impl<R: Renderer, T: WindowCreator<R>> Window<R, T>
         self.creator.set_size(w, h);
     }
 
-    pub fn renderer(&mut self) -> &mut R {
-        self.creator().renderer()
+    pub fn get_renderer(&mut self) -> &mut R {
+        self.creator().get_renderer()
     }
+
 
 }
