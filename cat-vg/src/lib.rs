@@ -1,9 +1,7 @@
 extern crate gl_graphic;
 extern crate graphic_core;
 
-use core::sync::atomic::AtomicU32;
-use core::sync::atomic::AtomicU8;
-use std::sync::{Mutex, atomic::Ordering};
+use core::sync::atomic::{AtomicU8, Ordering};
 use gl_graphic::{SDLWindow};
 use graphic_core::Renderer;
 
