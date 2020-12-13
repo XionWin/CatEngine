@@ -1,13 +1,12 @@
-use graphic_core::{WindowCreator, Window};
-use sdl2::pixels::Color;
+use crate::SDLRenderer;
+use graphic_core::{WindowCreator};
 
-pub type SDLWindow = Window<SDLWindowCreator>;
 pub struct SDLWindowCreator {
     sdl: sdl2::Sdl,
-    canvas: sdl2::render::Canvas<sdl2::video::Window>,
+    renderer: SDLRenderer,
 }
 
-impl WindowCreator for SDLWindowCreator {
+impl WindowCreator<SDLRenderer> for SDLWindowCreator {
     fn new(w: u32, h: u32) -> Self {
         let sdl = sdl2::init().unwrap();
         let video_subsystem = sdl.video().unwrap();
@@ -26,10 +25,10 @@ impl WindowCreator for SDLWindowCreator {
             .map_err(|e| e.to_string())
             .unwrap();
 
-        SDLWindowCreator { sdl, canvas }
+        SDLWindowCreator { sdl, renderer: SDLRenderer{canvas} }
     }
-    
-    fn show(&mut self) {
+
+    fn show(&mut self, f: &dyn Fn(&mut SDLRenderer)) {
         let mut event_pump = self.sdl.event_pump().unwrap();
         'main: loop {
             for event in event_pump.poll_iter() {
@@ -47,18 +46,19 @@ impl WindowCreator for SDLWindowCreator {
                 }
             }
 
-            self.canvas.set_draw_color(Color::RGB(255, 0, 0));
-            self.canvas.clear();
-            self.canvas.present();
+            f(&mut self.renderer);
+
+            self.renderer.canvas.clear();
+            self.renderer.canvas.present();
         }
     }
 
     fn set_size(mut self, w: u32, h: u32) -> Self {
-        let mut window = self.canvas.into_window();
+        let mut window = self.renderer.canvas.into_window();
         window.set_size(w, h).unwrap();
         window.set_position(sdl2::video::WindowPos::Centered, sdl2::video::WindowPos::Centered);
         
-        self.canvas = window
+        self.renderer.canvas = window
             .into_canvas()
             .present_vsync()
             .build()
@@ -68,7 +68,7 @@ impl WindowCreator for SDLWindowCreator {
     }
 
     fn set_position(mut self, x: graphic_core::WindowPos, y: graphic_core::WindowPos) -> Self {
-        let mut window = self.canvas.into_window();
+        let mut window = self.renderer.canvas.into_window();
 
         let pos_x = match x {
             graphic_core::WindowPos::Undefined => sdl2::video::WindowPos::Undefined,
@@ -83,7 +83,7 @@ impl WindowCreator for SDLWindowCreator {
 
         window.set_position(pos_x, pos_y);
         
-        self.canvas = window
+        self.renderer.canvas = window
             .into_canvas()
             .present_vsync()
             .build()
@@ -91,4 +91,8 @@ impl WindowCreator for SDLWindowCreator {
             .unwrap();
         self
     }
+
+    fn renderer(&mut self) -> &mut SDLRenderer { 
+        &mut self.renderer
+     }
 }

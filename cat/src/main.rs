@@ -9,4 +9,3 @@ fn _thing_returning_closure() -> impl Fn(i32) -> bool {
     println!("here's a closure for you!");
     |x: i32| x % 3 == 0
 }
-
