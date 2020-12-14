@@ -7,12 +7,12 @@ pub struct SDLWindowCreator {
 }
 
 impl WindowCreator<SDLRenderer> for SDLWindowCreator {
-    fn new(w: u32, h: u32) -> Self {
+    fn new(w: u32, h: u32, t: &str) -> Self {
         let sdl = sdl2::init().unwrap();
         let video_subsystem = sdl.video().unwrap();
 
         let window = video_subsystem
-            .window("Game", w, h)
+            .window(t, w, h)
             .opengl()
             .resizable()
             .build()
@@ -98,9 +98,4 @@ impl WindowCreator<SDLRenderer> for SDLWindowCreator {
     fn get_renderer(&mut self) -> &mut SDLRenderer { 
         &mut self.renderer
      }
-
-
-    fn set_update_handler(&mut self, f: &dyn Fn(&mut SDLRenderer)) {
-
-    }
 }

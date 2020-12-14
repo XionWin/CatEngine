@@ -12,13 +12,13 @@ pub struct Window<R: Renderer, T: WindowCreator<R>> {
 
 impl<R: Renderer, T: WindowCreator<R>> Window<R, T>
 {
-    pub fn new(x: i32, y: i32, w: u32, h: u32, title: &str) -> Self {
-        let creator = T::new(w, h);
+    pub fn new(x: i32, y: i32, w: u32, h: u32, t: &str) -> Self {
+        let creator = T::new(w, h, t);
         Window {
             _marker: PhantomData,
             creator,
             bound: Rect::new(x, y, w as i32, h as i32),
-            title: String::from(title),
+            title: String::from(t),
         }
     }
     pub fn creator(&mut self) -> &mut T {
