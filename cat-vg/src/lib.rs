@@ -10,7 +10,7 @@ use std::time::Duration;
 mod color;
 
 pub fn test() {
-    let mut window = SDLWindow::new(0, 0, 320, 320, "Game1");
+    let mut window = SDLWindow::new(0, 0, 320, 320, "Cat");
     
     let (tx, rx) = mpsc::channel();
     thread::spawn(move || {

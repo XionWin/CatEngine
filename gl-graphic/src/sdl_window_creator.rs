@@ -25,6 +25,7 @@ impl WindowCreator<SDLRenderer> for SDLWindowCreator {
             .map_err(|e| e.to_string())
             .unwrap();
 
+
         SDLWindowCreator {
             sdl,
              renderer: SDLRenderer{canvas},
